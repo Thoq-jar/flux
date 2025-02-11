@@ -1,2 +1,5 @@
 test => echo "Hello, World!"
 sorbet => echo "Hello, Sorbet!"
+multiline => echo "Hello line 1!"
+           > echo "Hello line 2!"
+           > echo "Hello line 3!"

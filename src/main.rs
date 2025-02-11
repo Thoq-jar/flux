@@ -16,14 +16,16 @@ fn main() -> Result<()> {
 
     if args[1] == "--help" {
         println!("Usage: flux [command] [...args]");
-        println!("Command: run");
+        println!("Commands: run, interpret");
         std::process::exit(0);
     }
 
     match args[1].as_str() {
         "run" => run_handler(args),
+        "interpret" => interpret_handler(args),
         _ => println!("Unknown command: {}! Use --help for help!", args[1]),
     }
+
     Ok(())
 }
 
@@ -56,8 +58,37 @@ fn run_handler(args: Vec<String>) {
     }
 
     let task = args[2].to_string();
-    let command = data.get(&task).unwrap();
+    let command = match data.get(&task) {
+        Some(cmd) => cmd,
+        None => {
+            println!("Task '{}' not found!", task);
+            println!(
+                "Available tasks: {}",
+                data.keys()
+                    .map(|s| s.as_str())
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            );
+            std::process::exit(1);
+        }
+    };
 
     utility::flux_print(format!("Running task: {}", task).as_str());
     utility::run_cmd(command, &args[3..]).expect("Failed to run command!");
+}
+
+fn interpret_handler(args: Vec<String>) {
+    if args.len() < 3 {
+        println!("Please specify a file!");
+        println!("Usage: flux interpret [file.srb]");
+    }
+
+    let file = args[2].as_str();
+
+    for line in fs::read_to_string(file)
+        .expect("Could not read file!")
+        .lines()
+    {
+        sorbet::interpret(line.to_string(), true);
+    }
 }

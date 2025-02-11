@@ -11,5 +11,5 @@ dependencies = [
 
 [[package]]
 name = "sorbet"
-version = "0.1.0"
-source = "git+https://github.com/Thoq-jar/sorbet.git#8d246b68affcba3245869d12c3d995a7e76767cf"
+version = "1.0.0"
+source = "git+https://github.com/Thoq-jar/sorbet.git#f852b517f33b0b8cdab420535bd50c5479160700"
