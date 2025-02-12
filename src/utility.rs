@@ -17,8 +17,15 @@ pub fn run_cmd(command: &str, args: &[String]) -> io::Result<()> {
             .stderr(Stdio::piped())
             .output()?;
 
-        println!("{}", String::from_utf8_lossy(&output.stdout));
-        println!("{}", String::from_utf8_lossy(&output.stderr));
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        let stderr = String::from_utf8_lossy(&output.stderr);
+
+        if !stdout.trim().is_empty() {
+            print!("{}", stdout);
+        }
+        if !stderr.trim().is_empty() {
+            print!("{}", stderr);
+        }
     }
 
     #[cfg(target_os = "windows")]
@@ -37,8 +44,15 @@ pub fn run_cmd(command: &str, args: &[String]) -> io::Result<()> {
             .stderr(Stdio::piped())
             .output()?;
 
-        println!("{}", String::from_utf8_lossy(&output.stdout));
-        println!("{}", String::from_utf8_lossy(&output.stderr));
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        let stderr = String::from_utf8_lossy(&output.stderr);
+
+        if !stdout.trim().is_empty() {
+            print!("{}", stdout);
+        }
+        if !stderr.trim().is_empty() {
+            print!("{}", stderr);
+        }
     }
 
     Ok(())
